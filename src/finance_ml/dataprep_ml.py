@@ -6,17 +6,32 @@ def print_test():
 class DataLoader():
     
     def __init__(self, 
-                 time_index_col,
-                 keep_cols, 
-                 join_dfs= True):
+                 time_index_col:str,
+                 keep_cols:list):
         
         self.keep_cols = keep_cols
         self.time_index_col = time_index_col
 
-    def guess_format(self, path_file):
+    def guess_format(self, 
+                     path_file:str)->str:
         return path_file.split('.')[-1].lower()
         
-    def load_dataset(self,path_files):
+    def load_dataset(self,
+                     path_files:dict)->pd.DataFrame:
+        
+        '''    
+        Retorna todas databases unificadas indexadas pelo timestamp 
+        
+        Args:        
+        -----            
+        path_files: dict 
+            Dicionário contendo como chave os tags utilizado como prefixos da tabela e como valor o respectivo caminho do arquivo.        
+            
+        Returns: 
+        -----
+        dataset: pandas DataFrame       
+            Base unificada contendo todas referências passadas como argumento.
+        '''
 
         self.tablefreq = pd.DataFrame()
 
@@ -39,11 +54,16 @@ class DataLoader():
                                           right_index=True,
                                           how='outer')
                 df_ = df_.add_prefix(tag+ '_')
-                dataset = dataset.merge(df_, right_index=True, left_index=True,)
+                dataset = dataset.merge(df_, 
+                                        right_index=True, 
+                                        left_index=True,
+                                        how='outer')
                 
         return dataset
 
-    def file_read(self, path_file, format) -> pd.DataFrame:
+    def file_read(self, 
+                  path_file:str, 
+                  format:str) -> pd.DataFrame:
         assert format in ['parquet', 'csv', 'excel'], 'Format must be "parquet", "csv", "xlsx"'
 
         if format =='parquet':
@@ -52,7 +72,8 @@ class DataLoader():
             df.set_index(self.time_index_col, inplace=True)
         return df
 
-    def raw_database_tablefreq(self, df):
+    def raw_database_tablefreq(self,
+                                df:pd.DataFrame)->pd.DataFrame:
         tablefreq = df.copy()
         tablefreq['date'] = tablefreq.index.date
         tablefreq['time'] = tablefreq.index.time
