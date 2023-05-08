@@ -22,7 +22,7 @@ setup(
     long_description=long_description,
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
-    install_requires=['pandas', 'numpy', 'matplotlib'],
+    install_requires=['pandas', 'numpy', 'matplotlib','pyarrow'],
     keywords=['python', 'finance', 'mlops'],
     classifiers=[
         "Development Status :: 1 - Planning",
