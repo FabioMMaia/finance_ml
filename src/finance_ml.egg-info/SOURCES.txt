@@ -3,8 +3,6 @@ LICENSE
 README.md
 pyproject.toml
 setup.py
-dist/finance_ml-0.0.2-py3-none-any.whl
-dist/finance_ml-0.0.2.tar.gz
 finance_ml.egg-info/PKG-INFO
 finance_ml.egg-info/SOURCES.txt
 finance_ml.egg-info/dependency_links.txt
